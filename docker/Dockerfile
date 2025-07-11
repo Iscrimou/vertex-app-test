@@ -29,8 +29,12 @@ WORKDIR /var/www/html
 
 COPY . /var/www/html
 
-RUN chown -R www-data:www-data storage bootstrap/cache
+COPY docker/entrypoint.sh /entrypoint.sh
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 80
