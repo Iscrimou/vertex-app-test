@@ -26,7 +26,7 @@ class ContactControllerTest extends TestCase
 
     public function testIndexReturnsContacts()
     {
-        $request = new Request(['name' => 'John']);
+        $request = new Request();
         $contacts = collect([
             ['id' => 1, 'name' => 'John']
         ]);
@@ -55,9 +55,7 @@ class ContactControllerTest extends TestCase
 		
         $request = new FakeContactRequest($data);
 
-        $created = new Contact();
-		$created->id = 1;
-		$created->name = 'John';
+        $created = new Contact($data);
 
         $this->repositoryMock
             ->expects($this->once())
@@ -112,9 +110,7 @@ class ContactControllerTest extends TestCase
         $data = ['name' => 'Updated'];
         $request = new FakeContactRequest($data);
 
-		$updated = new Contact();
-		$updated->id = 1;
-		$updated->name = 'Updated';
+		$updated = new Contact($data);
 
         $this->repositoryMock
             ->expects($this->once())

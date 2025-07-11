@@ -15,7 +15,7 @@ class FakeContactRequest extends ContactRequest
             'name' => 'John',
             'phone' => '11912345678',
             'email' => 'john@example.com',
-            'cep' => '12345678',
+            'cep' => '01001000',
         ];
     }
 
