@@ -2,13 +2,25 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\AddressRepositoryInterface;
 use App\Interfaces\ContactRepositoryInterface;
 use App\Models\Contact;
+use App\Services\CepService;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 class ContactRepository implements ContactRepositoryInterface
 {
+    protected CepService $cepService;
+    protected AddressRepositoryInterface $addressRepository;
+
+    public function __construct(CepService $cepService, AddressRepositoryInterface $addressRepository)
+    {
+        $this->cepService = $cepService;
+        $this->addressRepository = $addressRepository;
+    }
+    
     public function getContacts(array $filters): Collection
     {
         $contacts = Contact::getQuery();
@@ -28,8 +40,27 @@ class ContactRepository implements ContactRepositoryInterface
 
     }
 
-    public function createContact(array $data): Contact
+    public function createContact(array $data): Contact | null
     {
+        $validCep = $this->cepService->checkCep($data['cep']);
+
+        if (empty($validCep)) {
+            return null;
+        }
+
+        $addressData = Arr::only($validCep, [
+            'cep',
+            'logradouro',
+            'complemento',
+            'unidade',
+            'bairro',
+            'localidade',
+            'uf',
+            'estado'
+        ]);
+
+        $this->addressRepository->create($addressData);
+        
         return Contact::create($data);
     }
 
