@@ -21,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (Throwable $exception, Request $request) {
             if ($exception instanceof ValidationException) {
                 return response()->json([
+                    'success' => false,
                     'message' => 'Dados inválidos.',
                     'errors' => $exception->errors(),
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -32,8 +33,8 @@ return Application::configure(basePath: dirname(__DIR__))
                     : Response::HTTP_INTERNAL_SERVER_ERROR;
 
                 return response()->json([
+                    'success' => false,
                     'message' => $exception->getMessage() ?: 'Erro interno do servidor',
-                    'exception' => class_basename($exception),
                 ], $status);
             }
 

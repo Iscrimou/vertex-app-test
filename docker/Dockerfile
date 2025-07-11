@@ -29,6 +29,8 @@ WORKDIR /var/www/html
 
 COPY . /var/www/html
 
+COPY .env.example .env
+
 COPY docker/entrypoint.sh /entrypoint.sh
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
