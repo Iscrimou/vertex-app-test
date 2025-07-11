@@ -36,6 +36,10 @@ class ContactController extends Controller
         $validated = $request->validated();
 
         $contact = $this->contactRepository->createContact($validated);
+        
+        if (!$contact) {
+            return $this->error("CEP inválido", null, 400);
+        }
 
         return $this->success($contact, 201);
     }
