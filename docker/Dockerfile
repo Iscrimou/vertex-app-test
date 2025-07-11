@@ -37,6 +37,10 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 RUN chmod +x /entrypoint.sh
 
+RUN composer install
+
+RUN sqlite3 database/database.sqlite ""
+
 ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 80
