@@ -23,7 +23,7 @@ class ContactRequest extends FormRequest
     {
         return [
             'name'  => ['required', 'string'],
-            'phone' => ['required', 'string', 'regex:/^\d{11,12}$/'],
+            'phone' => ['required', 'string', 'regex:/^\d{10,11}$/'],
             'email' => ['required', 'string', 'email'],
             'cep'   => ['required', 'string', 'regex:/^\d{8}$/'],
         ];
@@ -34,7 +34,7 @@ class ContactRequest extends FormRequest
         return [
             'name.required'  => 'O nome é obrigatório.',
             'phone.required' => 'O telefone é obrigatório.',
-            'phone.regex'    => 'O telefone deve conter entre 11 e 12 dígitos numéricos.',
+            'phone.regex'    => 'O telefone deve conter entre 10 e 11 dígitos numéricos.',
             'email.required' => 'O e-mail é obrigatório.',
             'email.email'    => 'O e-mail deve estar em um formato válido.',
             'cep.required'   => 'O CEP é obrigatório.',
